@@ -31,5 +31,5 @@ jobs:
           architecture: x64
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      - name: Run the Gradle test task
-        run: ./gradlew -b ci.gradle test
+      - name: Run the Gradle build task
+        run: ./gradlew build
