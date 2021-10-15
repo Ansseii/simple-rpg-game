@@ -1,19 +1,23 @@
 package com.lukash.game.model;
 
 public enum Equipment {
-    SWORD(new Effect(0, 10)),
-    STONE(new Effect(3, 6)),
-    POTION(new Effect(7, 7));
+    SWORD(new Range(new Effect(0.7, 5), new Effect(1., 0))),
+    STONE(new Range(new Effect(0.6, 4), new Effect(0.45, 3))),
+    POTION(new Range(new Effect(1., 7), new Effect(1., 7)));
 
-    private final Effect effect;
+    private final Range range;
 
-    Equipment(Effect effect) {
-        this.effect = effect;
+    Equipment(Range range) {
+        this.range = range;
     }
 
-    public Effect getEffect() {
-        return effect;
+    public Range getEffect() {
+        return range;
     }
 
-    public record Effect(int max, int min) {}
+    public record Range(Effect max, Effect min) {
+    }
+
+    public record Effect(double chance, int value) {
+    }
 }
