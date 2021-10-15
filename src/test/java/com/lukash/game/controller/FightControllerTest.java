@@ -2,37 +2,37 @@ package com.lukash.game.controller;
 
 import com.lukash.game.exceptions.GameStateException;
 import com.lukash.game.exceptions.RunOutOfEquipmentException;
-import com.lukash.game.model.*;
+import com.lukash.game.model.Hero;
+import com.lukash.game.model.Point;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static com.lukash.game.model.Equipment.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FightControllerTest {
 
-    private FightController controller;
+    private GameController gameController;
+    private FightController fightController;
 
     @Test
     void canUseInventoryOnlyOnceInOneTurn() {
         setup(new Point(1, 1), new Point(1, 2));
 
-        controller.useInventory(POTION);
-        assertThrows(GameStateException.class, () -> controller.useInventory(POTION));
+        fightController.useInventory(POTION);
+        assertThrows(GameStateException.class, () -> fightController.useInventory(POTION));
     }
 
     @Test
     void swordHitsWhenPlayersInShortRangeDistance() {
         setup(new Point(1, 1), new Point(1, 2));
 
-        Hero activeHero = controller.gameState.getActivePlayer().getHero();
-        Hero enemyHero = controller.gameState.getEnemyPlayer().getHero();
+        Hero enemyHero = gameController.getEnemyPlayer().getHero();
 
         boolean attacked;
         do {
-            attacked = controller.useInventory(SWORD);
-            controller.gameState.endTurn();
+            attacked = fightController.useInventory(SWORD);
+            gameController.endTurn();
         } while (!attacked);
 
         assertEquals(10, enemyHero.getHp());
@@ -42,20 +42,19 @@ class FightControllerTest {
     void potionHealsHeroOn7Hp() {
         setup(new Point(1, 1), new Point(1, 2));
 
-        Hero activeHero = controller.gameState.getActivePlayer().getHero();
-        Hero enemyHero = controller.gameState.getEnemyPlayer().getHero();
+        Hero enemyHero = gameController.getEnemyPlayer().getHero();
 
         int hits = 0;
         do {
-            boolean attacked = controller.useInventory(SWORD);
-            controller.gameState.endTurn();
-            controller.gameState.endTurn();
+            boolean attacked = fightController.useInventory(SWORD);
+            gameController.endTurn();
+            gameController.endTurn();
             if (attacked) hits += 1;
         } while (hits < 2);
 
         assertEquals(5, enemyHero.getHp());
-        controller.gameState.endTurn();
-        controller.useInventory(POTION);
+        gameController.endTurn();
+        fightController.useInventory(POTION);
 
         assertEquals(12, enemyHero.getHp());
     }
@@ -64,53 +63,47 @@ class FightControllerTest {
     void onlyOnePotionPerGame() {
         setup(new Point(1, 1), new Point(1, 2));
 
-        controller.useInventory(POTION);
+        fightController.useInventory(POTION);
 
-        controller.gameState.endTurn();
-        controller.gameState.endTurn();
+        gameController.endTurn();
+        gameController.endTurn();
 
-        assertThrows(RunOutOfEquipmentException.class, () -> controller.useInventory(POTION));
+        assertThrows(RunOutOfEquipmentException.class, () -> fightController.useInventory(POTION));
 
-        controller.gameState.endTurn();
-        controller.gameState.endTurn();
+        gameController.endTurn();
+        gameController.endTurn();
 
-        assertThrows(RunOutOfEquipmentException.class, () -> controller.useInventory(POTION));
+        assertThrows(RunOutOfEquipmentException.class, () -> fightController.useInventory(POTION));
     }
 
     @Test
     void onlyTwoStonesPerGame() {
         setup(new Point(1, 1), new Point(1, 2));
 
-        controller.useInventory(STONE);
+        fightController.useInventory(STONE);
 
-        controller.gameState.endTurn();
-        controller.gameState.endTurn();
+        gameController.endTurn();
+        gameController.endTurn();
 
-        controller.useInventory(STONE);
+        fightController.useInventory(STONE);
 
-        controller.gameState.endTurn();
-        controller.gameState.endTurn();
+        gameController.endTurn();
+        gameController.endTurn();
 
-        assertThrows(RunOutOfEquipmentException.class, () -> controller.useInventory(STONE));
+        assertThrows(RunOutOfEquipmentException.class, () -> fightController.useInventory(STONE));
     }
 
     @Test
     void attackWhenPlayersInLongRangeDistance() {
         setup(new Point(1, 1), new Point(9, 9));
 
-        Hero activeHero = controller.gameState.getActivePlayer().getHero();
-        Hero enemyHero = controller.gameState.getEnemyPlayer().getHero();
-
-        assertThrows(GameStateException.class, () -> controller.useInventory(SWORD));
-        assertThrows(GameStateException.class, () -> controller.useInventory(STONE));
+        assertThrows(GameStateException.class, () -> fightController.useInventory(SWORD));
+        assertThrows(GameStateException.class, () -> fightController.useInventory(STONE));
     }
 
     private void setup(Point activePlayer, Point enemyPlayer) {
-        List<Player> players = List.of(
-                new Player("PLAYER_1", Figure.FIGURE_1, activePlayer),
-                new Player("PLAYER_2", Figure.FIGURE_2, enemyPlayer)
-        );
-        Game.createNewGame("Test Game", players, new Field(10));
-        this.controller = new FightController();
+        GameController.initNewGame(activePlayer, enemyPlayer);
+        this.gameController = GameController.getInstance();
+        this.fightController = FightController.getInstance();
     }
 }

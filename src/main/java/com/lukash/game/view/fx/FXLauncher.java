@@ -1,7 +1,7 @@
 package com.lukash.game.view.fx;
 
 import com.lukash.game.GameLauncher;
-import com.lukash.game.model.Game;
+import com.lukash.game.controller.GameController;
 import com.lukash.game.model.Player;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +14,8 @@ import java.util.List;
 
 public class FXLauncher extends Application {
 
+    private final GameController gameController = GameController.getInstance();
+
     public static void launch() {
         Application.launch();
     }
@@ -23,11 +25,10 @@ public class FXLauncher extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(GameLauncher.class.getResource("fx-ui.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        Game activeGame = Game.getActiveGame();
         GridPane gridPane = (GridPane) scene.lookup("#gridPane");
-        placePlayers(gridPane, activeGame.getPlayers());
+        placePlayers(gridPane, gameController.getPlayers());
 
-        stage.setTitle(activeGame.getName());
+//        stage.setTitle(activeGame.getName());
         stage.setScene(scene);
         stage.show();
     }

@@ -8,23 +8,33 @@ import com.lukash.game.util.FieldUtil;
 
 import static com.lukash.game.model.Equipment.*;
 
-public class FightController extends Controller {
+public class FightController {
+
+    private static FightController INSTANCE;
+
+    private final GameController gameController = GameController.getInstance();
+
+    private FightController() {};
+
+    public static FightController getInstance() {
+        return INSTANCE == null ? new FightController() : INSTANCE;
+    }
 
     public boolean useInventory(Equipment equipment) {
-        if (gameState.isInventoryUsed()) throw new GameStateException("The inventory can be used only once");
+        if (gameController.isInventoryUsed()) throw new GameStateException("The inventory can be used only once");
 
         boolean success = switch (equipment) {
             case SWORD, STONE -> attackEnemy(equipment);
             case POTION -> usePotion();
         };
-        gameState.setInventoryUsed();
+        gameController.setInventoryUsed();
 
         return success;
     }
 
     private boolean attackEnemy(Equipment weapon) {
-        Hero active = gameState.getActivePlayer().getHero();
-        Hero enemy = gameState.getEnemyPlayer().getHero();
+        Hero active = gameController.getActivePlayer().getHero();
+        Hero enemy = gameController.getEnemyPlayer().getHero();
         int distance = FieldUtil.getDistanceBetweenPoints(active.getPosition(), enemy.getPosition());
 
         Effect damage = switch (weapon) {
@@ -47,7 +57,7 @@ public class FightController extends Controller {
     }
 
     private Effect useStone(int distance) {
-        Hero hero = gameState.getActivePlayer().getHero();
+        Hero hero = gameController.getActivePlayer().getHero();
         if (hero.isInventoryContains(STONE)) {
             hero.takeFromInventory(STONE);
             return switch (distance) {
@@ -60,7 +70,7 @@ public class FightController extends Controller {
     }
 
     private boolean usePotion() {
-        Hero hero = gameState.getActivePlayer().getHero();
+        Hero hero = gameController.getActivePlayer().getHero();
         if (hero.isInventoryContains(POTION)) {
             hero.takeFromInventory(POTION);
             hero.setHp(hero.getHp() + POTION.getEffect().max().value());

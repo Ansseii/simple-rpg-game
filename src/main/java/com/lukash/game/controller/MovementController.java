@@ -9,36 +9,46 @@ import com.lukash.game.view.Action;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MovementController extends Controller {
+public class MovementController {
+
+    private static MovementController INSTANCE;
+
+    private final GameController gameController = GameController.getInstance();
+
+    private MovementController() {};
+
+    public static MovementController getInstance() {
+        return INSTANCE == null ? new MovementController() : INSTANCE;
+    }
 
     public void move(Point newPosition, Action drawAction) {
-        Hero activeHero = gameState.getActivePlayer().getHero();
+        Hero activeHero = gameController.getActivePlayer().getHero();
         Point currentPosition = activeHero.getPosition();
         int distance = FieldUtil.getDistanceBetweenPoints(currentPosition, newPosition);
 
         validatePoint(newPosition, distance);
-        field.setFigure(currentPosition, null);
-        field.setFigure(newPosition, activeHero.getFigure());
+        gameController.getField().setFigure(currentPosition, null);
+        gameController.getField().setFigure(newPosition, activeHero.getFigure());
 
-        gameState.minusSteps(distance);
+        gameController.minusSteps(distance);
 
         drawAction.apply();
         activeHero.setPosition(newPosition);
     }
 
     public Set<Point> getAvailableArea() {
-        Point position = gameState.getActivePlayer().getHero().getPosition();
-        Point enemyPosition = gameState.getEnemyPlayer().getHero().getPosition();
+        Point position = gameController.getActivePlayer().getHero().getPosition();
+        Point enemyPosition = gameController.getEnemyPlayer().getHero().getPosition();
 
-        return field.getAvailablePoints(position, gameState.getSteps()).stream()
+        return gameController.getField().getAvailablePoints(position, gameController.getSteps()).stream()
                 .filter(p -> !p.equals(enemyPosition))
                 .collect(Collectors.toSet());
     }
 
     private void validatePoint(Point point, int distance) {
-        Point enemyPosition = gameState.getEnemyPlayer().getHero().getPosition();
+        Point enemyPosition = gameController.getEnemyPlayer().getHero().getPosition();
 
-        if (distance > gameState.getSteps()) {
+        if (distance > gameController.getSteps()) {
             throw new InvalidPointException("New point is too far. Pick another one");
         }
 
