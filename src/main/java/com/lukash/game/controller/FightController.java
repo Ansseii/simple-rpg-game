@@ -11,10 +11,15 @@ import static com.lukash.game.model.Equipment.*;
 public class FightController extends Controller {
 
     public boolean useInventory(Equipment equipment) {
-        return switch (equipment) {
+        if (gameState.isInventoryUsed()) throw new GameStateException("The inventory can be used only once");
+
+        boolean success = switch (equipment) {
             case SWORD, STONE -> attackEnemy(equipment);
             case POTION -> usePotion();
         };
+        gameState.setInventoryUsed();
+
+        return success;
     }
 
     private boolean attackEnemy(Equipment weapon) {
