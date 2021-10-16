@@ -69,6 +69,7 @@ public class FXView extends View {
     @FXML
     private void startNewGame() {
         updateInfo();
+        placePlayers();
         gameInterface.setDisable(false);
         newGameBtn.setVisible(false);
     }
@@ -179,5 +180,9 @@ public class FXView extends View {
     private void clearArea() {
         area.forEach(p -> FXUtil.clear(gridPane, p));
         area.clear();
+    }
+
+    private void placePlayers() {
+        gameController.getPlayers().forEach(p -> FXUtil.drawFigure(gridPane, p.getHero().getPosition(), p.getHero().getFigure()));
     }
 }
