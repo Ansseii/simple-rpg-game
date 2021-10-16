@@ -29,6 +29,7 @@ public class FXLauncher extends Application {
         placePlayers(gridPane, gameController.getPlayers());
 
 //        stage.setTitle(activeGame.getName());
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

@@ -33,17 +33,18 @@ public class GameFactory {
             this.players = players;
             this.field = field;
             this.state = new GameState(players);
+            initStartPosition();
         }
 
-        public List<Player> getPlayers() {
+        protected List<Player> getPlayers() {
             return players;
         }
 
-        public Field getField() {
+        protected Field getField() {
             return field;
         }
 
-        public GameState getState() {
+        protected GameState getState() {
             return state;
         }
 
@@ -58,52 +59,61 @@ public class GameFactory {
     protected static class GameState {
         private static final int AVAILABLE_STEPS = 4;
 
-        private final Deque<Player> order = new LinkedList<>();
+        private final Deque<Player> queue = new LinkedList<>();
+        private Player winner;
         private Player activePlayer;
         private Player enemyPlayer;
         private boolean inventoryUsed;
         private int steps;
 
         private GameState(List<Player> players) {
-            this.order.addAll(players);
+            this.queue.addAll(players);
             endTurn();
         }
 
-        public boolean isInventoryUsed() {
+        protected boolean isInventoryUsed() {
             return inventoryUsed;
         }
 
-        public void setInventoryUsed() {
+        protected void setInventoryUsed() {
             this.inventoryUsed = true;
         }
 
-        public void endTurn() {
+        protected void endTurn() {
             swapPlayers();
             this.steps = AVAILABLE_STEPS;
             this.inventoryUsed = false;
         }
 
-        public Player getActivePlayer() {
+        protected Optional<Player> getWinner() {
+            return Optional.ofNullable(winner);
+        }
+
+        protected void setWinner(Player winner) {
+            this.winner = winner;
+        }
+
+        protected Player getActivePlayer() {
             return activePlayer;
         }
 
-        public Player getEnemyPlayer() {
+        protected Player getEnemyPlayer() {
             return enemyPlayer;
         }
 
-        public int getSteps() {
+        protected int getSteps() {
             return steps;
         }
 
-        public void minusSteps(int steps) {
+        protected void minusSteps(int steps) {
             int updated = this.steps - steps;
             this.steps = Math.max(updated, 0);
         }
 
         private void swapPlayers() {
-            Player active = order.poll();
-            this.enemyPlayer = order.peek();
-            order.addLast(active);
+            Player active = queue.poll();
+            this.enemyPlayer = queue.peek();
+            queue.addLast(active);
             this.activePlayer = active;
         }
     }

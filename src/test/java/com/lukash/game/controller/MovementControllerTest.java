@@ -1,6 +1,7 @@
 package com.lukash.game.controller;
 
 import com.lukash.game.exceptions.InvalidPointException;
+import com.lukash.game.model.Field;
 import com.lukash.game.model.Figure;
 import com.lukash.game.model.Point;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,16 @@ class MovementControllerTest {
         GameController.initNewGame(new Point(0, 0), new Point(9, 9));
         this.gameController = GameController.getInstance();
         this.movementController = MovementController.getInstance();
+    }
+
+    @Test
+    void checkStartPosition() {
+        Point first = new Point(0, 0);
+        Point second = new Point(9, 9);
+        Field field = gameController.getField();
+
+        assertEquals(Figure.FIGURE_1, field.getFigure(first));
+        assertEquals(Figure.FIGURE_2, field.getFigure(second));
     }
 
     @Test

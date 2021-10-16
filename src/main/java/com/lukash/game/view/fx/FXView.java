@@ -64,7 +64,6 @@ public class FXView extends View {
                     FXUtil.drawFigure(gridPane, selected, activeHero.getFigure());
                 });
                 highlightArea();
-                gameController.endTurn();
             } catch (InvalidPointException e) {
                 FXUtil.setValue(warnings, e.getMessage());
             }

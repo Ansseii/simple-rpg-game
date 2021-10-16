@@ -45,6 +45,7 @@ public class FightController {
 
         boolean success = Math.random() <= damage.chance();
         if (success) enemy.setHp(enemy.getHp() - damage.value());
+        gameController.findWinner();
 
         return success;
     }
