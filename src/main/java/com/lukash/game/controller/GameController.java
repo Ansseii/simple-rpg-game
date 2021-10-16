@@ -4,7 +4,6 @@ import com.lukash.game.model.*;
 
 import java.util.List;
 
-// TODO test
 public class GameController {
 
     private final GameFactory.Game game;

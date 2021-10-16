@@ -2,6 +2,7 @@ package com.lukash.game.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.lukash.game.model.Equipment.*;
 
@@ -17,6 +18,19 @@ public class Hero {
         this.figure = figure;
         this.position = position;
         this.inventory = initInventory();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hero hero = (Hero) o;
+        return hp == hero.hp && position.equals(hero.position) && figure == hero.figure && inventory.equals(hero.inventory);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hp, position, figure, inventory);
     }
 
     public int getHp() {
