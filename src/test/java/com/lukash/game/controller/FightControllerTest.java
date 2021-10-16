@@ -33,6 +33,7 @@ class FightControllerTest {
         do {
             attacked = fightController.useInventory(SWORD);
             gameController.endTurn();
+            gameController.endTurn();
         } while (!attacked);
 
         assertEquals(10, enemyHero.getHp());
