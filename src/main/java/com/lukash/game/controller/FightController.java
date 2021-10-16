@@ -14,7 +14,7 @@ public class FightController {
 
     private final GameController gameController = GameController.getInstance();
 
-    private FightController() {};
+    private FightController() {}
 
     public static FightController getInstance() {
         return INSTANCE == null ? new FightController() : INSTANCE;
@@ -60,12 +60,13 @@ public class FightController {
     private Effect useStone(int distance) {
         Hero hero = gameController.getActivePlayer().getHero();
         if (hero.isInventoryContains(STONE)) {
-            hero.takeFromInventory(STONE);
-            return switch (distance) {
+            Effect damage = switch (distance) {
                 case 1, 2, 3 -> STONE.getEffect().max();
                 case 4, 5, 6 -> STONE.getEffect().min();
                 default -> throw new GameStateException("Enemy is too far");
             };
+            hero.takeFromInventory(STONE);
+            return damage;
         }
         throw new RunOutOfEquipmentException("No one stone left");
     }

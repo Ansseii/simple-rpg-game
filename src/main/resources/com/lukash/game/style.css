@@ -1,0 +1,72 @@
+.cell {
+    -fx-background-color: #6ad1e8;
+    -fx-background-radius: 5;
+    -fx-padding: 2px;
+    -fx-border-insets: 2px;
+    -fx-background-insets: 2px;
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 30px;
+}
+
+.area {
+    -fx-background-color: #ff5e00;
+    -fx-background-radius: 5;
+    -fx-padding: 2px;
+    -fx-border-insets: 2px;
+    -fx-background-insets: 2px;
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 30px;
+}
+
+.button {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 20px;
+}
+
+.label-warning {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 30px;
+    -fx-text-fill: red;
+    -fx-alignment: center;
+}
+
+.label-info {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 30px;
+    -fx-text-fill: gray;
+    -fx-alignment: center;
+}
+
+.label-player {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+}
+
+.label-hp-value {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 50px;
+    -fx-alignment: center;
+    -fx-text-fill: red;
+}
+
+.label-player-state {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 50px;
+    -fx-alignment: center;
+    -fx-text-fill: black;
+}
+
+.label-player-combat-log {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 35px;
+    -fx-alignment: center;
+    -fx-text-fill: blue;
+}
+
+.label-winner {
+    -fx-font-family: "Baloo Thambi";
+    -fx-font-size: 50px;
+    -fx-alignment: center;
+    -fx-text-fill: red;
+}

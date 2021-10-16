@@ -3,7 +3,6 @@ package com.lukash.game.controller;
 import com.lukash.game.model.*;
 
 import java.util.List;
-import java.util.Optional;
 
 // TODO test
 public class GameController {
@@ -30,8 +29,8 @@ public class GameController {
         GameFactory.createNewGame(players, new Field(10));
     }
 
-    public Optional<Player> getWinner() {
-        return gameState.getWinner();
+    public Summary getSummary() {
+        return new Summary(game.getPlayers(), gameState.getActivePlayer(), gameState.getWinner());
     }
 
     public void findWinner() {

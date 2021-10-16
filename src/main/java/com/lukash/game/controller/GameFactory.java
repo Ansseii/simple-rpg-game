@@ -85,8 +85,8 @@ public class GameFactory {
             this.inventoryUsed = false;
         }
 
-        protected Optional<Player> getWinner() {
-            return Optional.ofNullable(winner);
+        protected Player getWinner() {
+            return winner;
         }
 
         protected void setWinner(Player winner) {

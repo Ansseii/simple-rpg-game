@@ -3,10 +3,7 @@ package com.lukash.game.view.fx;
 import com.lukash.game.model.Figure;
 import com.lukash.game.model.Point;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import java.util.Optional;
 
@@ -25,12 +22,16 @@ public class FXUtil {
 
     protected static void highlight(GridPane gridPane, Point point) {
         Label label = lookupByPoint(gridPane, point);
-        label.setBackground(new Background(new BackgroundFill(Color.ORANGE, null, null)));
+
+        label.getStyleClass().add("area");
+        label.getStyleClass().remove("cell");
     }
 
     protected static void clear(GridPane gridPane, Point point) {
         Label label = lookupByPoint(gridPane, point);
-        label.setBackground(Background.EMPTY);
+
+        label.getStyleClass().add("cell");
+        label.getStyleClass().remove("area");
     }
 
     private static Label lookupByPoint(GridPane gridPane, Point point) {

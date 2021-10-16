@@ -39,6 +39,10 @@ public class Hero {
         return figure;
     }
 
+    public int getCount(Equipment equipment) {
+        return inventory.get(equipment);
+    }
+
     public boolean isInventoryContains(Equipment equipment) {
         return inventory.get(equipment) > 0;
     }

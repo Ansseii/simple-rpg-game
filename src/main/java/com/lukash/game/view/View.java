@@ -1,5 +1,6 @@
 package com.lukash.game.view;
 
+import com.lukash.game.controller.FightController;
 import com.lukash.game.controller.GameController;
 import com.lukash.game.controller.MovementController;
 import com.lukash.game.model.Point;
@@ -12,11 +13,13 @@ public abstract class View {
     protected final Set<Point> area = new HashSet<>();
     protected final GameController gameController;
     protected final MovementController movementController;
+    protected final FightController fightController;
 
     public View() {
         GameController.initNewGame(new Point(0, 0), new Point(9, 9));
         this.gameController = GameController.getInstance();
         this.movementController = MovementController.getInstance();
+        this.fightController = FightController.getInstance();
     }
 
     public abstract void show();
