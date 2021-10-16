@@ -103,7 +103,7 @@ class FightControllerTest {
 
     private void setup(Point activePlayer, Point enemyPlayer) {
         GameController.initNewGame(activePlayer, enemyPlayer);
-        this.gameController = GameController.getInstance();
-        this.fightController = FightController.getInstance();
+        this.gameController = new GameController();
+        this.fightController = new FightController();
     }
 }

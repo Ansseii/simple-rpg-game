@@ -10,15 +10,7 @@ import static com.lukash.game.model.Equipment.*;
 
 public class FightController {
 
-    private static FightController INSTANCE;
-
-    private final GameController gameController = GameController.getInstance();
-
-    private FightController() {}
-
-    public static FightController getInstance() {
-        return INSTANCE == null ? new FightController() : INSTANCE;
-    }
+    private final GameController gameController = new GameController();
 
     public boolean useInventory(Equipment equipment) {
         if (gameController.isInventoryUsed()) throw new GameStateException("The inventory can be used only once");

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FXLauncher extends Application {
 
-    private final GameController gameController = GameController.getInstance();
+    private final GameController gameController = new GameController();
 
     public static void launch() {
         Application.launch();

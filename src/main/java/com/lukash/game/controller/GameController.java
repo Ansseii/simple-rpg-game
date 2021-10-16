@@ -7,18 +7,12 @@ import java.util.List;
 // TODO test
 public class GameController {
 
-    private static GameController INSTANCE;
-
     private final GameFactory.Game game;
     private final GameFactory.GameState gameState;
 
-    private GameController() {
+    public GameController() {
         this.game = GameFactory.getActiveGame();
         this.gameState = GameFactory.getActiveGame().getState();
-    }
-
-    public static GameController getInstance() {
-        return INSTANCE == null ? new GameController() : INSTANCE;
     }
 
     public static void initNewGame(Point activePlayer, Point enemyPlayer) {

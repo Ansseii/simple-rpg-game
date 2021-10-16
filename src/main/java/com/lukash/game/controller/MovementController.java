@@ -11,15 +11,7 @@ import java.util.stream.Collectors;
 
 public class MovementController {
 
-    private static MovementController INSTANCE;
-
-    private final GameController gameController = GameController.getInstance();
-
-    private MovementController() {};
-
-    public static MovementController getInstance() {
-        return INSTANCE == null ? new MovementController() : INSTANCE;
-    }
+    private final GameController gameController = new GameController();
 
     public void move(Point newPosition, Action drawAction) {
         Hero activeHero = gameController.getActivePlayer().getHero();

@@ -17,8 +17,8 @@ class MovementControllerTest {
     @BeforeEach
     void setup() {
         GameController.initNewGame(new Point(0, 0), new Point(9, 9));
-        this.gameController = GameController.getInstance();
-        this.movementController = MovementController.getInstance();
+        this.gameController = new GameController();
+        this.movementController = new MovementController();
     }
 
     @Test
