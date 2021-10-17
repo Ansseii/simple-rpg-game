@@ -10,5 +10,6 @@ Run
 ./gradlew run
 ```
 ---
+#### Field resolution 1000x1000
 <img src="interface.png" width="50%" height="50%" alt="">
 
