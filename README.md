@@ -9,3 +9,6 @@ Run
 ```
 ./gradlew run
 ```
+---
+<img src="interface.png" width="50%" height="50%" alt="">
+
