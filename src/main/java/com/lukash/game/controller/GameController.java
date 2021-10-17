@@ -6,14 +6,6 @@ import java.util.List;
 
 public class GameController {
 
-    private final GameFactory.Game game;
-    private final GameFactory.GameState gameState;
-
-    public GameController() {
-        this.game = GameFactory.getActiveGame();
-        this.gameState = GameFactory.getActiveGame().getState();
-    }
-
     public static void initNewGame(Point activePlayer, Point enemyPlayer) {
         List<Player> players = List.of(
                 new Player("PLAYER_1", Figure.FIGURE_1, activePlayer),
@@ -23,51 +15,55 @@ public class GameController {
     }
 
     public Summary getSummary() {
-        return new Summary(game.getPlayers(), gameState.getActivePlayer(), gameState.getWinner());
+        return new Summary(
+                GameFactory.getActiveGame().getPlayers(),
+                GameFactory.getActiveGame().getState().getActivePlayer(),
+                GameFactory.getActiveGame().getState().getWinner()
+        );
     }
 
     public void findWinner() {
-        Player activePlayer = gameState.getActivePlayer();
-        Hero enemyHero = gameState.getEnemyPlayer().getHero();
+        Player activePlayer = GameFactory.getActiveGame().getState().getActivePlayer();
+        Hero enemyHero = GameFactory.getActiveGame().getState().getEnemyPlayer().getHero();
 
         if (enemyHero.getHp() == 0) {
-            gameState.setWinner(activePlayer);
+            GameFactory.getActiveGame().getState().setWinner(activePlayer);
         }
     }
 
     public List<Player> getPlayers() {
-        return game.getPlayers();
+        return GameFactory.getActiveGame().getPlayers();
     }
 
     public Player getActivePlayer() {
-        return gameState.getActivePlayer();
+        return GameFactory.getActiveGame().getState().getActivePlayer();
     }
 
     public void endTurn() {
-        gameState.endTurn();
+        GameFactory.getActiveGame().getState().endTurn();
     }
 
     protected Field getField() {
-        return game.getField();
+        return GameFactory.getActiveGame().getField();
     }
 
     protected void minusSteps(int steps) {
-        gameState.minusSteps(steps);
+        GameFactory.getActiveGame().getState().minusSteps(steps);
     }
 
     protected int getSteps() {
-        return gameState.getSteps();
+        return GameFactory.getActiveGame().getState().getSteps();
     }
 
     protected Player getEnemyPlayer() {
-        return gameState.getEnemyPlayer();
+        return GameFactory.getActiveGame().getState().getEnemyPlayer();
     }
 
     protected boolean isInventoryUsed() {
-        return gameState.isInventoryUsed();
+        return GameFactory.getActiveGame().getState().isInventoryUsed();
     }
 
     protected void setInventoryUsed() {
-        gameState.setInventoryUsed();
+        GameFactory.getActiveGame().getState().setInventoryUsed();
     }
 }

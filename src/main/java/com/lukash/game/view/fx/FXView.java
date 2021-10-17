@@ -1,5 +1,6 @@
 package com.lukash.game.view.fx;
 
+import com.lukash.game.controller.GameController;
 import com.lukash.game.exceptions.GameStateException;
 import com.lukash.game.exceptions.InvalidPointException;
 import com.lukash.game.model.Equipment;
@@ -68,8 +69,11 @@ public class FXView extends View {
 
     @FXML
     private void startNewGame() {
+        GameController.initNewGame(new Point(0, 0), new Point(9, 9));
+        FXUtil.setValue(winner, null);
         updateInfo();
         placePlayers();
+        clearCombatLog();
         gameInterface.setDisable(false);
         newGameBtn.setVisible(false);
     }
@@ -154,6 +158,11 @@ public class FXView extends View {
         }
     }
 
+    private void clearCombatLog() {
+        FXUtil.setValue(player1CombatLog, null);
+        FXUtil.setValue(player2CombatLog, null);
+    }
+
     private void updateInfo() {
         Summary summary = gameController.getSummary();
 
@@ -168,6 +177,8 @@ public class FXView extends View {
 
         summary.getWinner().ifPresent(w -> {
             gameInterface.setDisable(true);
+            newGameBtn.setVisible(true);
+            clearPlayers();
             FXUtil.setValue(winner, summary.getWinnerMessage());
         });
     }
@@ -184,5 +195,9 @@ public class FXView extends View {
 
     private void placePlayers() {
         gameController.getPlayers().forEach(p -> FXUtil.drawFigure(gridPane, p.getHero().getPosition(), p.getHero().getFigure()));
+    }
+
+    private void clearPlayers() {
+        gameController.getPlayers().forEach(p -> FXUtil.drawFigure(gridPane, p.getHero().getPosition(), null));
     }
 }

@@ -11,16 +11,9 @@ import java.util.Set;
 public abstract class View {
 
     protected final Set<Point> area = new HashSet<>();
-    protected final GameController gameController;
-    protected final MovementController movementController;
-    protected final FightController fightController;
-
-    public View() {
-        GameController.initNewGame(new Point(0, 0), new Point(9, 9));
-        this.gameController = new GameController();
-        this.movementController = new MovementController();
-        this.fightController = new FightController();
-    }
+    protected final GameController gameController = new GameController();
+    protected final MovementController movementController = new MovementController();
+    protected final FightController fightController = new FightController();
 
     public abstract void show();
 }
